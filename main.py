@@ -3,6 +3,7 @@ import argparse
 import threading
 import time
 import os
+import subprocess
 from PIL import Image, ImageDraw, ImageFont
 from colorlight_module import ColorLight5a75Controller
 
@@ -121,9 +122,21 @@ def main():
     print(f"텍스트: '{args.text}' (크기: {args.font_size}, 색: {args.text_color})")
     print(f"--------------------------")
 
+    # 네트워크 인터페이스 자동 선택 로직
+    # 사용자가 직접 지정하지 않은 경우(기본값 en5일 때), 시스템에 en5가 없으면 enp0s6으로 폴백
+    selected_interface = args.interface
+    if args.interface == "en5":
+        try:
+            available_ifaces = subprocess.check_output(["ifconfig", "-l"]).decode().split()
+            if "en5" not in available_ifaces and "enp0s6" in available_ifaces:
+                print(f"시스템에 en5가 없어 enp0s6 인터페이스를 자동으로 선택합니다.")
+                selected_interface = "enp0s6"
+        except Exception as e:
+            print(f"인터페이스 확인 중 오류 발생: {e}")
+
     # 컨트롤러 인스턴스 생성
     controller = ColorLight5a75Controller(
-        interface=args.interface,
+        interface=selected_interface,
         width=args.width,
         height=args.height,
         color_order=args.color_order
