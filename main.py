@@ -47,6 +47,8 @@ def get_args():
     
     # 필수 및 주요 옵션
     parser.add_argument('--text', '-t', type=str, default="TLS Systems", help='출력할 문자열 (기본: Hello!)')
+    parser.add_argument('--initial-font-size', '-ifs', type=int, default=50, help='초기 이미지 글자 크기 (기본: 50)')
+    parser.add_argument('--initial-text-color', '-itc', type=str, default="white", help='초기 이미지 글자 색상 (기본: white)')
     parser.add_argument('--interface', '-i', type=str, default=defaults["interface"], help=f'네트워크 인터페이스 (기본: {defaults["interface"]})')
     parser.add_argument('--width', '-W', type=int, default=defaults["width"], help=f'패널 가로 해상도 (기본: {defaults["width"]})')
     parser.add_argument('--height', '-H', type=int, default=defaults["height"], help=f'패널 세로 해상도 (기본: {defaults["height"]})')
@@ -214,7 +216,7 @@ def main():
             print("종료하려면 Ctrl+C를 누르세요.")
             
             # 초기 이미지 생성 및 즉시 전송
-            img = create_text_image(args.text, args.width, args.height, 50, args.text_color, args.bg_color)
+            img = create_text_image(args.text, args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
             controller.output_frame(img)
             print("초기 화면 전송 완료.")
             
