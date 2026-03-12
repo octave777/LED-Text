@@ -46,7 +46,7 @@ def get_args():
     parser = argparse.ArgumentParser(description='Colorlight 5A-75B Modular Controller (v2)')
     
     # 필수 및 주요 옵션
-    parser.add_argument('--text', '-t', type=str, default="Hello!", help='출력할 문자열 (기본: Hello!)')
+    parser.add_argument('--text', '-t', type=str, default="TLS Systems", help='출력할 문자열 (기본: Hello!)')
     parser.add_argument('--interface', '-i', type=str, default=defaults["interface"], help=f'네트워크 인터페이스 (기본: {defaults["interface"]})')
     parser.add_argument('--width', '-W', type=int, default=defaults["width"], help=f'패널 가로 해상도 (기본: {defaults["width"]})')
     parser.add_argument('--height', '-H', type=int, default=defaults["height"], help=f'패널 세로 해상도 (기본: {defaults["height"]})')
@@ -138,8 +138,8 @@ def create_text_image(text, width, height, font_size, text_color, bg_color):
     
     return final_img
 
-# 주기적인 백그라운드 스레드는 상하 고스트 현상의 원인이 될 수 있습니다 (패킷 간섭 및 타이밍 문제).
-# 패널 하드웨어가 마지막 프레임을 기억하므로, 변경 시에만 전송하는 방식으로 수정합니다.
+
+# 패널 하드웨어가 마지막 프레임을 기억하므로, 변경 시에만 전송하는 방식
 
 def main():
     global current_img, running
@@ -214,7 +214,7 @@ def main():
             print("종료하려면 Ctrl+C를 누르세요.")
             
             # 초기 이미지 생성 및 즉시 전송
-            img = create_text_image(args.text, args.width, args.height, args.font_size, args.text_color, args.bg_color)
+            img = create_text_image(args.text, args.width, args.height, 50, args.text_color, args.bg_color)
             controller.output_frame(img)
             print("초기 화면 전송 완료.")
             
