@@ -2,6 +2,7 @@ import sys
 import argparse
 import threading
 import time
+import os
 from PIL import Image, ImageDraw, ImageFont
 from colorlight_module import ColorLight5a75Controller
 
@@ -15,14 +16,14 @@ def get_args():
     
     # 필수 및 주요 옵션
     parser.add_argument('--text', '-t', type=str, default="Hello!", help='출력할 문자열 (기본: Hello!)')
-    parser.add_argument('--interface', '-i', type=str, default="enp0s6", help='네트워크 인터페이스 (기본: en5)')
+    parser.add_argument('--interface', '-i', type=str, default="en5", help='네트워크 인터페이스 (기본: en5)')
     parser.add_argument('--width', '-W', type=int, default=320, help='패널 가로 해상도 (기본: 320)')
     parser.add_argument('--height', '-H', type=int, default=240, help='패널 세로 해상도 (기본: 240)')
     
     # 색상 및 폰트 설정
     parser.add_argument('--color-order', '-co', type=str, default="BGR", help='색상 순서: RGB, BGR, GRB 등 (기본: BGR)')
     parser.add_argument('--font-size', '-fs', type=int, default=150, help='글자 크기 (기본: 30)')
-    parser.add_argument('--text-color', type=str, default="blue", help='글자 색상 (기본: white)')
+    parser.add_argument('--text-color', type=str, default="white", help='글자 색상 (기본: white)')
     parser.add_argument('--bg-color', type=str, default="black", help='배경 색상 (기본: black)')
     
     # 추가 제어 옵션 (C++ 원본 기능 반영)
@@ -47,7 +48,12 @@ def create_text_image(text, width, height, font_size, text_color, bg_color):
     # 2. 폰트 로드 시도
     font = None
     try:
+        # 프로젝트 내 font 폴더의 GothicBold.ttf를 최우선으로 시도
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        primary_font_path = os.path.join(script_dir, "font", "GothicBold.ttf")
+        
         font_paths = [
+            primary_font_path,
             "/System/Library/Fonts/Cache/AppleGothic.ttf", 
             "/Library/Fonts/Arial.ttf",
             "/System/Library/Fonts/Supplemental/Arial.ttf",
@@ -57,8 +63,9 @@ def create_text_image(text, width, height, font_size, text_color, bg_color):
         ]
         for path in font_paths:
             try:
-                font = ImageFont.truetype(path, font_size)
-                break
+                if os.path.exists(path):
+                    font = ImageFont.truetype(path, font_size)
+                    break
             except:
                 continue
         if not font:
