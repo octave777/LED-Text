@@ -1,5 +1,5 @@
 {
-    "interface": "eth0",
+    "interface": "en5",
     "width": 320,
     "height": 240,
     "color_order": "BGR",
