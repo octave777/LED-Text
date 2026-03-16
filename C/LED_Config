@@ -1,0 +1,11 @@
+{
+    "interface": "eth0",
+    "width": 320,
+    "height": 160,
+    "color_order": "BGR",
+    "font_size": 200,
+    "text_color": "white",
+    "bg_color": "black",
+    "brightness": 100,
+    "gamma": 1.0
+}
