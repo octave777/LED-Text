@@ -1,9 +1,0 @@
-interface=enp0s6
-width=320
-height=240
-font_path=/usr/share/fonts/truetype/nanum/NanumGothic.ttf
-font_size=150
-text_color=0,0,255
-bg_color=0,0,0
-color_order=BGR
-initial_text=Hello!
