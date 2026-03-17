@@ -272,8 +272,8 @@ def main():
     
     # 초기 이미지 생성
     current_img = create_text_image(args.text, args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
-    blank_img = create_text_image(args.text, args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
-    # 초기 이미지 전송
+    blank_img = create_text_image(" "", args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
+    # 초기 이미지 전송 (전송전 블랭크 이미지 먼저 전송)
     controller.output_frame(blank_img)
     controller.output_frame(current_img)
     print(f"초기 이미지 전송 완료: '{args.text}'")
@@ -289,15 +289,14 @@ def main():
                 # 텍스트 가공 (마지막 3글자 유지, + 포함 시 공백)
                 display_text = new_text[-3:] if len(new_text) > 3 else new_text
                 if '+' in new_text:
-                    display_text = "  "
+                    display_text = " "
                 
                 # 새로운 이미지 생성 (이후부터는 --font-size 등 일반 옵션 사용)
                 new_img = create_text_image(display_text, args.width, args.height, args.font_size, args.text_color, args.bg_color)
-                blank_img = create_text_image(" ", args.width, args.height, args.font_size, args.text_color, args.bg_color)
+                
                 current_img = new_img
                 
                 # 즉시 전송
-                controller.output_frame(blank_img)
                 controller.output_frame(new_img)
                 
                 print(f">> 전송 갱신됨: '{display_text}'")
