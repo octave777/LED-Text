@@ -289,7 +289,7 @@ def main():
                 # 텍스트 가공 (마지막 3글자 유지, + 포함 시 공백)
                 display_text = new_text[-3:] if len(new_text) > 3 else new_text
                 if '+' in new_text:
-                    display_text = " "
+                    display_text = "  "
                 
                 # 새로운 이미지 생성 (이후부터는 --font-size 등 일반 옵션 사용)
                 new_img = create_text_image(display_text, args.width, args.height, args.font_size, args.text_color, args.bg_color)
