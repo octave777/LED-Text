@@ -178,9 +178,15 @@ int main() {
 
     // 초기 이미지 전송 (50 크기 적용)
     std::string initial_text = "TLS Systems";
+    
+    // 초기 이미지 전송 전 블랭크 이미지 먼저 전송 (main.py와 동작 일치)
+    auto blank_img = renderer.render_text(" ", cfg.initial_font_size, parse_color(cfg.text_color), parse_color(cfg.bg_color));
+    controller.output_frame(blank_img);
+    
     auto img = renderer.render_text(initial_text, cfg.initial_font_size, parse_color(cfg.text_color), parse_color(cfg.bg_color));
     controller.output_frame(img);
     std::cout << "초기 이미지 전송 완료: '" << initial_text << "'" << std::endl;
+
 
     std::cout << "\n새로운 텍스트를 입력하고 Enter를 누르면 화면이 즉시 바뀝니다." << std::endl;
     std::cout << "종료하려면 Ctrl+C를 누르세요." << std::endl;
