@@ -272,14 +272,12 @@ def main():
     
     # 초기 이미지 생성
     current_img = create_text_image(args.text, args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
-    blank_img = create_text_image(".", args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
+    blank_img = create_text_image(" ", args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
     # 초기 이미지 전송 (전송전 블랭크 이미지 먼저 전송)
     controller.output_frame(blank_img)
-    # 1초간 시간 간격을 둡니다.
-    time.sleep(1)
     # 초기 이미지 전송
     controller.output_frame(current_img)
-    print(f"초기 이미지 전송 완료: '{args.text}'")
+
 
     try:
         print("\n새로운 텍스트를 입력하고 Enter를 누르면 화면이 즉시 바뀝니다.")
@@ -309,7 +307,7 @@ def main():
     except Exception as e:
         print(f"오류 발생: {e}")
         if "Operation not permitted" in str(e):
-            print("힌트: 네트워크 로우 소켓 접근을 위해 sudo 권한이 필요할 수 있습니다.")
+            print("네트워크 로우 소켓 접근을 위해 sudo 권한이 필요할 수 있습니다.")
 
 if __name__ == "__main__":
     main()
