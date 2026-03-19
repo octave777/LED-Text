@@ -272,9 +272,12 @@ def main():
     
     # 초기 이미지 생성
     current_img = create_text_image(args.text, args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
-    blank_img = create_text_image(" ", args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
+    blank_img = create_text_image(".", args.width, args.height, args.initial_font_size, args.initial_text_color, args.bg_color)
     # 초기 이미지 전송 (전송전 블랭크 이미지 먼저 전송)
     controller.output_frame(blank_img)
+    # 1초간 시간 간격을 둡니다.
+    time.sleep(1)
+    # 초기 이미지 전송
     controller.output_frame(current_img)
     print(f"초기 이미지 전송 완료: '{args.text}'")
 
